@@ -6,6 +6,11 @@ from matplotlib.pyplot import cm
 
 
 def q_balancing_index(data: Data, sensors_mask):
+    """
+    Calculate QBI
+    - data: network information
+    - sensors_mask: sensors rotations
+    """
     psi = achieved_coverage(data, sensors_mask)
     K = data.K
     QBI = (np.sum(psi) ** 3)/(np.sum(K)**3) * (np.sum(K**2)/np.sum(psi**2))
@@ -85,6 +90,16 @@ def coverage_quality(data: Data, sensors_mask: np.ndarray=None, particle: Partic
     return CQ
 
 def generate_metric_evaluation(datasets, res_set, data_type, data_size, metric, genome_type='sensors_mask', avg_for_multiple_datasets=True):
+    """
+    Calculate metric for a number of networks with chosen scenario and size and solves
+    - datasets: dataset
+    - res_set: solves (set of sensors rotations, sensors_mask or particle)
+    - data_type: scenario
+    - data_size
+    - metric:
+    - genome_type: 'sensors_mask' or 'particle'
+    - avg_for_multiple_datasets: return array of result for each network and rotations if False
+    """
     metric_func_dict = {
         'distance_index': distance_index,
         'di': distance_index,
@@ -158,6 +173,9 @@ def generate_metric_evaluation(datasets, res_set, data_type, data_size, metric, 
 #     return DI, VAR, CQ, AS
 
 def plot_metric_evaluation(x_axis, y_axis, x_label, y_label, labels, title, figsize=(10, 8)):
+    """
+    Visualize metric result for better understanding and comparision
+    """
     y_axis = list(y_axis)
     labels = list(labels)
     colors = cm.get_cmap('Accent').colors

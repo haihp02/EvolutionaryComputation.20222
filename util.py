@@ -3,6 +3,9 @@ from data import Data
 from copy import deepcopy
 
 def is_within_FoV(bisector, target, sensor, radius, q):
+    """
+    Check if target is in sensors 's Field of View
+    """
     target = np.asarray(target)
     sensor = np.asarray(sensor)
     bisector = np.asarray(bisector)
@@ -12,6 +15,9 @@ def is_within_FoV(bisector, target, sensor, radius, q):
     return scalar + 1e-7 >= radius*dist*np.cos(np.pi/q) and dist - 1e-7 <= radius
 
 def init_T(data: Data):
+    """
+    Initialize T set
+    """
     sensors = data.sensors
     targets = data.targets
     radius = data.radius

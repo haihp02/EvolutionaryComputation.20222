@@ -5,6 +5,9 @@ import matplotlib.pyplot as plt
 from matplotlib import patches as ptc
 
 class Data(typing.NamedTuple):
+    """
+    Store network information
+    """
     n: int
     m: int
     q: int
@@ -38,6 +41,9 @@ def center_square(area):
     return (x, y)
 
 def zipf(n, area):
+    """
+    Initialize datapoints with zipf distribution
+    """
     n_in = int(0.75*n)
     n_out = n - n_in
 
@@ -60,6 +66,12 @@ def zipf(n, area):
     return points[indicies]
 
 def random_points(n, area, distribution_type='uniform'):
+    """
+    Initialize random datapoints.
+    - n: number of datapoints
+    - area: field area ((min_x, max_x), (min_y, max_y))
+    - distribution_type: 'uniform' or 'zipf'
+    """
     points = None
 
     if distribution_type == 'uniform':
@@ -77,6 +89,13 @@ def random_points(n, area, distribution_type='uniform'):
     return points
     
 def create_example_data(n_sensors, n_targets, max_k=3, sensing_radius=20, area=((0, 150), (0, 150)), distribution_type='uniform'):
+    """
+    Create example network with sensors and targets
+    - n_sensors: number of sensors
+    - n_target: number of targets
+    - max_k: maximum coverage requirement of a target (k/q value)
+    - sensing_radius: sensors sensing radius
+    """
     sensors = random_points(n_sensors, area, distribution_type)
     targets = random_points(n_targets, area, distribution_type)
     K = np.random.randint(low=1, high=max_k+1, size=n_targets)
@@ -91,6 +110,11 @@ def create_example_data(n_sensors, n_targets, max_k=3, sensing_radius=20, area=(
                 area=area)
 
 def create_example_smooth_data(n_sensors, n_targets, sensing_radius=20, area=((0, 150), (0, 150)), n_sub_areas=4, distribution_type='uniform'):
+    """
+    Create example network with more evenly distributed sensors and targets
+    by dividing field area into smaller sub areas
+    - n_subareas: number of sub areas
+    """
     split = int(np.sqrt(n_sub_areas))
     n_sub_areas = split**2
 
@@ -134,6 +158,15 @@ def create_example_smooth_data(n_sensors, n_targets, sensing_radius=20, area=((0
                 area=area)
 
 def create_dataset(distribution_type='uniform'):
+    """
+    Create dataset with random networks follow two scenario and three size:
+    - Fixed number of sensors, increase number of targets ('fixed-sensors')
+    - Fixed number of targets, increase number of sensors ('fixed-targets)
+    - Sizes: 'small', 'large' and 'huge'
+    Higher index datas are built by adding sensors/ targets to lower index datas
+
+    Return: dataset[scenario][size][data_index]     
+    """
     sensing_radius = 20
     # Fixed_sensors
     fs_data = {'small': [], 'large': [], 'huge': []}
@@ -277,6 +310,13 @@ def make_pan_boundaries(centroid, q, radius):
     return ans
 
 def show_network(data: Data, sensors_mask=None, particle=None, figsize: tuple=None):
+    """
+    Visualize network
+    - data: network information
+    - sensor_mask: sensors directions
+    - particle: sensors directions and states for PSO/ DPSO encoding
+    - figsize: figure size
+    """
     n = data.n
     m = data.m
     q = data.q

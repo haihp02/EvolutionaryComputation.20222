@@ -30,6 +30,9 @@ class Particle():
 
 class PSO:
     def __init__(self, w=0.8, c1=0.25, c2=0.25) -> None:
+        """
+        Init PSO solver with PSO's hyperparameter
+        """
         self.w = w
         self.c1 = c1
         self.c2 = c2
@@ -37,6 +40,9 @@ class PSO:
         self._compiled = False
 
     def adapt(self, data: Data):
+        """
+        Setup for solving a particular network, take in network data
+        """
         self.n = data.n
         self.m = data.m
         self.q = data.q
@@ -49,6 +55,9 @@ class PSO:
         self._compiled = False
 
     def compile(self, config: PSOConfig):
+        """
+        Set evolutionary algorithm hyperparameter
+        """
         self.POPULATION_SIZE = config.pop_size
         self.threshold = config.threshold
         self.useless_penalty = config.useless_penalty

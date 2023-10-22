@@ -10,6 +10,9 @@ class SOGA:
         pass
 
     def adapt(self, data: Data):
+        """
+        Setup for solving a particular network, take in network data
+        """
         self.n = data.n
         self.m = data.m
         self.q = data.q
@@ -24,6 +27,11 @@ class SOGA:
         self.N = set(range(self.m))
 
     def solve(self, mode='linear'):
+        """
+        Solve for adapted network with
+        - mode: 'linear' (ILP), 'quadratic' (IQP), 'prioritize' (pIQP) or 'reduced_variance' (rvIQP)
+        Return sensors_mask and achieved coverage for each target via C and a
+        """
         F = self.F.copy()
         N = self.N.copy()
         C = [None]*self.n
